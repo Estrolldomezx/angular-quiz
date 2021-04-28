@@ -5,20 +5,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WordsComponent } from './words/words.component';
 import { HttpClientModule } from '@angular/common/http';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule} from '@angular/material/button';
+import { ResultComponent } from './result/result.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    WordsComponent
+    WordsComponent,
+    ResultComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    MatButtonModule
+    MatButtonModule,
   ],
-  providers: [],
+  providers: [WordsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

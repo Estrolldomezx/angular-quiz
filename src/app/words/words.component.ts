@@ -25,7 +25,8 @@ export class WordsComponent implements OnInit {
     this.randomWord();
   }
 
-  randomWord() {
+   randomWord() {
+
     //random Word and meaning
     var randomWord = Math.floor(Math.random() * this.wordList.length);
     var resultRandom = this.wordList[randomWord];
@@ -36,10 +37,10 @@ export class WordsComponent implements OnInit {
     document.getElementById("reading").innerHTML = myOBJ.reading;
 
     this.randomChoices(myOBJ);
-    return myOBJ;
   }
 
-  randomChoices(myOBJ) {
+  public randomChoices(myOBJ) {
+
     //random Choice 1
     var randomChoice1 = Math.floor(Math.random() * this.wordList.length);
     var resultRandomChoice1 = this.wordList[randomChoice1];
@@ -68,11 +69,14 @@ export class WordsComponent implements OnInit {
       this.randomChoices(myOBJ);
     } else { this.randomButton(myOBJ, myOBJ_choice1, myOBJ_choice2); }
 
+    return { 
+      myOBJ, myOBJ_choice1, myOBJ_choice2
+    };
   }
 
 
 
-  randomButton(myOBJ, myOBJ_choice1, myOBJ_choice2) {
+  async randomButton(myOBJ, myOBJ_choice1, myOBJ_choice2) {
 
 
     var myarray = [myOBJ.meaning, myOBJ_choice1.meaning, myOBJ_choice2.meaning];
@@ -96,160 +100,75 @@ export class WordsComponent implements OnInit {
       random == random3 ||
       random2 == random3
     ) {
-      this.randomButton(myOBJ, myOBJ_choice1, myOBJ_choice2);
+      await this.randomButton(myOBJ, myOBJ_choice1, myOBJ_choice2);
     } else {
       document.getElementById("randomButton").innerHTML = random;
       document.getElementById("randomButton2").innerHTML = random2;
       document.getElementById("randomButton3").innerHTML = random3;
-      this.guessHandler(myOBJ);
+      await this.guessHandler(myOBJ);
 
     }
 
 
   }
 
-  public guessHandler(myOBJ) {
 
-    var r1 = document.getElementById("randomButton");
-    var r2 = document.getElementById("randomButton2");
-    var r3 = document.getElementById("randomButton3");
-
-
-    // //ทดสอบ event ปุ่มด้วย if ---> กดปุ่มก็ออกผลลัพธ์แค่ปุ่มแรก
-    // document.getElementById("buttons").addEventListener("click", function () {
-    //   if (r1.getAttribute("id") == "randomButton") {
-    //     var answer = document.getElementById("randomButton").innerHTML;
-    //     console.log(myOBJ.meaning);
-    //     console.log(answer);
-    //     if (myOBJ.meaning == answer && myOBJ.meaning != null && answer != null) {
-    //       console.log("true");
-    //       return true;
-    //     } else {
-    //       console.log("false");
-    //       return false;
-    //     }
-    //   }
-    //   if (r2.getAttribute("id") == "randomButton2") {
-    //     var answer2 = document.getElementById("randomButton2").innerHTML;
-    //     console.log(myOBJ.meaning);
-    //     console.log(answer2);
-    //     if (myOBJ.meaning == answer2 && myOBJ.meaning != null && answer2 != null) {
-    //       console.log("true");
-    //       return true;
-    //     } else {
-    //       console.log("false");
-    //       return false;
-    //     }
-    //   }
-    //   if (r3.getAttribute("id") == "randomButton3") {
-    //     var answer3 = document.getElementById("randomButton3").innerHTML;
-    //     console.log(myOBJ.meaning);
-    //     console.log(answer3);
-    //     if (myOBJ.meaning == answer3 && myOBJ.meaning != null && answer3 != null) {
-    //       console.log("true");
-    //       return true;
-    //     } else {
-    //       console.log("false");
-    //       return false;
-    //     }
-    //   }
-    // });
-
-
-
+  async guessHandler(myOBJ: any) {//default (myOBJ)
+    
+    //ต้องการ return เป็น boolean
+    var bool: boolean;
 
     //ทดสอบด้วย if -else แล้ว แต่เช็ค True, False กับ service ไม่ได้
 
-    // if (document.getElementById("randomButton").addEventListener) {
-    //   document.getElementById("randomButton").addEventListener("click", function () {
-    //     var answer = document.getElementById("randomButton").innerHTML;
-    //     console.log(myOBJ.meaning);
-    //     console.log(answer);
-    //     if (myOBJ.meaning == answer && myOBJ.meaning != null && answer != null) {
-    //       console.log("true");
-    //       return true;
-    //     } else {
-    //       console.log("false");
-    //       return false;
-    //     }
+    if (document.getElementById("randomButton").addEventListener) {
+      document.getElementById("randomButton").addEventListener("click", function () {
+        var answer = document.getElementById("randomButton").innerHTML;
+        console.log(myOBJ.meaning);
+        console.log(answer);
+        if (myOBJ.meaning == answer && myOBJ.meaning != null && answer != null) {
+          console.log("true");
+          bool = true;
+        } else {
+          console.log("false");
+          bool = false;
+        }
+        return bool;
+      });
+    }
+    
 
-    //   });
-    // }
+    if (document.getElementById("randomButton2").addEventListener) {
+      document.getElementById("randomButton2").addEventListener("click", function () {
+        var answer2 = document.getElementById("randomButton2").innerHTML;
+        console.log(myOBJ.meaning);
+        console.log(answer2);
+        if (myOBJ.meaning == answer2 && myOBJ.meaning != null && answer2 != null) {
+          console.log("true");
+          return true;
+        } else {
+          console.log("false");
+          return false;
+        }
 
-    // if (document.getElementById("randomButton2").addEventListener) {
-    //   document.getElementById("randomButton2").addEventListener("click", function () {
-    //     var answer2 = document.getElementById("randomButton2").innerHTML;
-    //     console.log(myOBJ.meaning);
-    //     console.log(answer2);
-    //     if (myOBJ.meaning == answer2 && myOBJ.meaning != null && answer2 != null) {
-    //       console.log("true");
-    //       return true;
-    //     } else {
-    //       console.log("false");
-    //       return false;
-    //     }
+      });
+    }
 
-    //   });
-    // }
+    if (document.getElementById("randomButton3").addEventListener) {
+      document.getElementById("randomButton3").addEventListener("click", function () {
+        var answer3 = document.getElementById("randomButton3").innerHTML;
+        console.log(myOBJ.meaning);
+        console.log(answer3);
+        if (myOBJ.meaning == answer3 && myOBJ.meaning != null && answer3 != null) {
+          console.log("true");
+          return true;
+        } else {
+          console.log("false");
+          return false;
+        }
 
-    // if (document.getElementById("randomButton3").addEventListener) {
-    //   document.getElementById("randomButton3").addEventListener("click", function () {
-    //     var answer3 = document.getElementById("randomButton3").innerHTML;
-    //     console.log(myOBJ.meaning);
-    //     console.log(answer3);
-    //     if (myOBJ.meaning == answer3 && myOBJ.meaning != null && answer3 != null) {
-    //       console.log("true");
-    //       return true;
-    //     } else {
-    //       console.log("false");
-    //       return false;
-    //     }
+      });
+    }
 
-    //   });
-    // }
-
-
-
-    //ทดสอบการอ่านค่าจาก id ของทุกตัวของ button เช็ค boolean กับ service ไม่ได้
-
-    // document.getElementById("randomButton").addEventListener("click", function () {
-    //   var answer = document.getElementById("randomButton").innerHTML;
-    //   console.log(myOBJ.meaning);
-    //   console.log(answer);
-    //   if (myOBJ.meaning == answer && myOBJ.meaning != null && answer != null) {
-    //     console.log("true");
-    //     return true;
-    //   } else {
-    //     console.log("false");
-    //     return false;
-    //   }
-    // });
-
-    // document.getElementById("randomButton2").addEventListener("click", function () {
-    //   var answer2 = document.getElementById("randomButton2").innerHTML;
-    //   console.log(myOBJ.meaning);
-    //   console.log(answer2);
-    //   if (myOBJ.meaning == answer2 && myOBJ.meaning != null && answer2 != null) {
-    //     console.log("true");
-    //     return true;
-    //   } else {
-    //     console.log("false");
-    //     return false;
-    //   }
-    // });
-
-    // document.getElementById("randomButton3").addEventListener("click", function () {
-    //   var answer3 = document.getElementById("randomButton3").innerHTML;
-    //   console.log(myOBJ.meaning);
-    //   console.log(answer3);
-    //   if (myOBJ.meaning == answer3 && myOBJ.meaning != null && answer3 != null) {
-    //     console.log("true");
-    //     return true;
-    //   } else {
-    //     console.log("false");
-    //     return false;
-    //   }
-    // });
 
   }
 
