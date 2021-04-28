@@ -9,13 +9,14 @@ import word_data from '../_files/word_data.json';
   styleUrls: ['./words.component.css']
 })
 
-
 export class WordsComponent implements OnInit {
 
   wordList: { vocab: String, reading: String, meaning: String }[] = word_data;
+  AnswerList: { vocab: String, reading: String, meaning: String }[] = word_data;
 
 
   constructor() {
+    var dome;
   }
 
 
@@ -24,17 +25,17 @@ export class WordsComponent implements OnInit {
   }
 
 
+
   randomButton(myOBJ, myOBJ_choice1, myOBJ_choice2) {
 
     var myarray = [myOBJ.meaning, myOBJ_choice1.meaning, myOBJ_choice2.meaning];
     var random = myarray[Math.floor(Math.random() * myarray.length)];
     //console.log(random);
-    
 
     var myarray2 = [myOBJ.meaning, myOBJ_choice1.meaning, myOBJ_choice2.meaning];
     var random2 = myarray2[Math.floor(Math.random() * myarray2.length)];
     //console.log(random2);
-    
+
 
     var myarray3 = [myOBJ.meaning, myOBJ_choice1.meaning, myOBJ_choice2.meaning];
     var random3 = myarray3[Math.floor(Math.random() * myarray3.length)];
@@ -47,12 +48,14 @@ export class WordsComponent implements OnInit {
       random == random2 ||
       random == random3 ||
       random2 == random3
-      ) {
+    ) {
       this.randomButton(myOBJ, myOBJ_choice1, myOBJ_choice2);
     } else {
       document.getElementById("randomButton").innerHTML = random;
       document.getElementById("randomButton2").innerHTML = random2;
       document.getElementById("randomButton3").innerHTML = random3;
+      this.guessHandler(myOBJ);
+
     }
 
 
@@ -68,7 +71,7 @@ export class WordsComponent implements OnInit {
     var myJSON = JSON.stringify(resultRandom);
     var myOBJ = JSON.parse(myJSON);
     document.getElementById("vocabulary").innerHTML = myOBJ.vocabulary;
-    //document.getElementById("meaning").innerHTML = myOBJ.meaning;
+    document.getElementById("reading").innerHTML = myOBJ.reading;
 
     this.randomChoices(myOBJ);
 
@@ -83,7 +86,7 @@ export class WordsComponent implements OnInit {
     //console.log(myJSON_choice1);
     //document.getElementById("otherChoice1").innerHTML = myOBJ_choice1.meaning;
 
-    
+
     //random Choice 2
     var randomChoice2 = Math.floor(Math.random() * this.wordList.length);
     var resultRandomChoice2 = this.wordList[randomChoice2];
@@ -105,6 +108,45 @@ export class WordsComponent implements OnInit {
     this.randomButton(myOBJ, myOBJ_choice1, myOBJ_choice2);
   }
 
+  public guessHandler(myOBJ) {
+    document.getElementById("randomButton").addEventListener("click", function () {
+      var answer = document.getElementById("randomButton").innerHTML;
+      console.log(myOBJ.meaning);
+      console.log(answer);
+      if (myOBJ.meaning == answer && myOBJ.meaning != null && answer != null) {
+        console.log("true");
+      } else {
+        console.log("false");
+      }
+    });
+
+    document.getElementById("randomButton2").addEventListener("click", function () {
+      var answer2 = document.getElementById("randomButton2").innerHTML;
+      console.log(myOBJ.meaning);
+      console.log(answer2);
+      if (myOBJ.meaning == answer2 && myOBJ.meaning != null && answer2 != null) {
+        console.log("true");
+      } else {
+        console.log("false");
+      }
+    });
+
+    document.getElementById("randomButton3").addEventListener("click", function () {
+      var answer3 = document.getElementById("randomButton3").innerHTML;
+      console.log(myOBJ.meaning);
+      console.log(answer3);
+      if (myOBJ.meaning == answer3 && myOBJ.meaning != null && answer3 != null) {
+        console.log("true");
+      } else {
+        console.log("false");
+      }
+    });
+
+  }
+
+
+
 }
+
 
 
