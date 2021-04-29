@@ -4,10 +4,14 @@
 <section>
    <div class="answer-label">
       <div class="answer-button" id="buttons">
-         <button mat-raised-button id="randomButton" ></button>
-         <button mat-raised-button id="randomButton2"></button>
-         <button mat-raised-button id="randomButton3"></button>
+         <button mat-raised-button id="randomButton" (click)="testclick()" ></button>
+         <button mat-raised-button id="randomButton2" (click)="testclick2()"></button>
+         <button mat-raised-button id="randomButton3" (click)="testclick3()"></button>
       </div>
-      <!-- ค่อยมาทดสอบ onSelected button -->
    </div>
+   <br><br>
+   <div *ngIf="messageService.messages.length">
+      <div *ngFor='let message of messageService.messages'> {{message}}</div>
+    </div>
+<div>{{foo}}</div>
 </section>

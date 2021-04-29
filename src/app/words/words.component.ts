@@ -1,9 +1,8 @@
-//ทำ service มาเก็บฟังก์ชั่น ยังทำการ pass function หรือ value ของแต่ละ function ไปยัง component ไม่ได้ 
-
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import word_data from '../_files/word_data.json';
+import { MessageService } from '../message.service';
 
+var oneClick: boolean = false;
 
 @Component({
   selector: 'app-words',
@@ -15,69 +14,56 @@ export class WordsComponent implements OnInit {
 
   wordList: { vocab: String, reading: String, meaning: String }[] = word_data;
 
+  foo: String
+
+  //random Word and meaning
+  randomWords = Math.floor(Math.random() * this.wordList.length);
+  resultRandom = this.wordList[this.randomWords];
+  myJSON = JSON.stringify(this.resultRandom);
+  myOBJ = JSON.parse(this.myJSON);
 
 
-
-  constructor() { }
-
+  constructor(public messageService: MessageService) { }
 
   ngOnInit(): void {
     this.randomWord();
   }
 
-   randomWord() {
 
-    //random Word and meaning
-    var randomWord = Math.floor(Math.random() * this.wordList.length);
-    var resultRandom = this.wordList[randomWord];
-    //console.log(resultRandom);
-    var myJSON = JSON.stringify(resultRandom);
-    var myOBJ = JSON.parse(myJSON);
-    document.getElementById("vocabulary").innerHTML = myOBJ.vocabulary;
-    document.getElementById("reading").innerHTML = myOBJ.reading;
-
-    this.randomChoices(myOBJ);
+  randomWord() {
+    document.getElementById("vocabulary").innerHTML = this.myOBJ.vocabulary;
+    document.getElementById("reading").innerHTML = this.myOBJ.reading;
+    this.randomChoices(this.myOBJ);
   }
+
+
+  randomChoice1 = Math.floor(Math.random() * this.wordList.length);
+  resultRandomChoice1 = this.wordList[this.randomChoice1];
+  myJSON_choice1 = JSON.stringify(this.resultRandomChoice1);
+  myOBJ_choice1 = JSON.parse(this.myJSON_choice1);
+
+  randomChoice2 = Math.floor(Math.random() * this.wordList.length);
+  resultRandomChoice2 = this.wordList[this.randomChoice2];
+  myJSON_choice2 = JSON.stringify(this.resultRandomChoice2);
+  myOBJ_choice2 = JSON.parse(this.myJSON_choice2);
 
   public randomChoices(myOBJ) {
-
-    //random Choice 1
-    var randomChoice1 = Math.floor(Math.random() * this.wordList.length);
-    var resultRandomChoice1 = this.wordList[randomChoice1];
-    var myJSON_choice1 = JSON.stringify(resultRandomChoice1);
-    var myOBJ_choice1 = JSON.parse(myJSON_choice1);
-    //console.log(myJSON_choice1);
-    //document.getElementById("otherChoice1").innerHTML = myOBJ_choice1.meaning;
-
-
-    //random Choice 2
-    var randomChoice2 = Math.floor(Math.random() * this.wordList.length);
-    var resultRandomChoice2 = this.wordList[randomChoice2];
-    var myJSON_choice2 = JSON.stringify(resultRandomChoice2);
-    var myOBJ_choice2 = JSON.parse(myJSON_choice2);
-    //console.log(myJSON_choice2);
-    //document.getElementById("otherChoice2").innerHTML = myOBJ_choice2.meaning;
-
+    this.messageService.add('Guessing..');
     if (
       myOBJ.meaning == null ||
-      myOBJ_choice1.meaning == null ||
-      myOBJ_choice2.meaning == null ||
-      myOBJ.meaning == myOBJ_choice1.meaning ||
-      myOBJ.meaning == myOBJ_choice2.meaning ||
-      myOBJ_choice1.meaning == myOBJ_choice2.meaning
+      this.myOBJ_choice1.meaning == null ||
+      this.myOBJ_choice2.meaning == null ||
+      myOBJ.meaning == this.myOBJ_choice1.meaning ||
+      myOBJ.meaning == this.myOBJ_choice2.meaning ||
+      this.myOBJ_choice1.meaning == this.myOBJ_choice2.meaning
     ) {
       this.randomChoices(myOBJ);
-    } else { this.randomButton(myOBJ, myOBJ_choice1, myOBJ_choice2); }
-
-    return { 
-      myOBJ, myOBJ_choice1, myOBJ_choice2
-    };
+    } else { this.randomButton(myOBJ, this.myOBJ_choice1, this.myOBJ_choice2); }
   }
-
-
 
   async randomButton(myOBJ, myOBJ_choice1, myOBJ_choice2) {
 
+    //ห้ามนำตัวแปรออก เดี๋ยวปุ่มหาย
 
     var myarray = [myOBJ.meaning, myOBJ_choice1.meaning, myOBJ_choice2.meaning];
     var random = myarray[Math.floor(Math.random() * myarray.length)];
@@ -86,7 +72,6 @@ export class WordsComponent implements OnInit {
     var myarray2 = [myOBJ.meaning, myOBJ_choice1.meaning, myOBJ_choice2.meaning];
     var random2 = myarray2[Math.floor(Math.random() * myarray2.length)];
     //console.log(random2);
-
 
     var myarray3 = [myOBJ.meaning, myOBJ_choice1.meaning, myOBJ_choice2.meaning];
     var random3 = myarray3[Math.floor(Math.random() * myarray3.length)];
@@ -105,76 +90,54 @@ export class WordsComponent implements OnInit {
       document.getElementById("randomButton").innerHTML = random;
       document.getElementById("randomButton2").innerHTML = random2;
       document.getElementById("randomButton3").innerHTML = random3;
-      await this.guessHandler(myOBJ);
-
+      //this.guessHandler(myOBJ);
     }
-
-
   }
 
-
-  async guessHandler(myOBJ: any) {//default (myOBJ)
-    
-    //ต้องการ return เป็น boolean
-    var bool: boolean;
-
-    //ทดสอบด้วย if -else แล้ว แต่เช็ค True, False กับ service ไม่ได้
-
-    if (document.getElementById("randomButton").addEventListener) {
-      document.getElementById("randomButton").addEventListener("click", function () {
-        var answer = document.getElementById("randomButton").innerHTML;
-        console.log(myOBJ.meaning);
-        console.log(answer);
-        if (myOBJ.meaning == answer && myOBJ.meaning != null && answer != null) {
-          console.log("true");
-          bool = true;
-        } else {
-          console.log("false");
-          bool = false;
-        }
-        return bool;
-      });
+  testclick() {
+    if (oneClick == false) {
+      var answer = document.getElementById("randomButton").innerHTML;
+      if (this.myOBJ.meaning == answer && this.myOBJ.meaning != null && answer != null) {
+        this.foo = "Correct !";
+        console.log(this.foo);
+      } else {
+        this.foo = "Wrong Answer !";
+        console.log(this.foo);
+      }
+      oneClick = true
     }
-    
-
-    if (document.getElementById("randomButton2").addEventListener) {
-      document.getElementById("randomButton2").addEventListener("click", function () {
-        var answer2 = document.getElementById("randomButton2").innerHTML;
-        console.log(myOBJ.meaning);
-        console.log(answer2);
-        if (myOBJ.meaning == answer2 && myOBJ.meaning != null && answer2 != null) {
-          console.log("true");
-          return true;
-        } else {
-          console.log("false");
-          return false;
-        }
-
-      });
-    }
-
-    if (document.getElementById("randomButton3").addEventListener) {
-      document.getElementById("randomButton3").addEventListener("click", function () {
-        var answer3 = document.getElementById("randomButton3").innerHTML;
-        console.log(myOBJ.meaning);
-        console.log(answer3);
-        if (myOBJ.meaning == answer3 && myOBJ.meaning != null && answer3 != null) {
-          console.log("true");
-          return true;
-        } else {
-          console.log("false");
-          return false;
-        }
-
-      });
-    }
-
-
   }
-
-
-
+  testclick2() {
+    if (oneClick == false) {
+      var answer2 = document.getElementById("randomButton2").innerHTML;
+      if (this.myOBJ.meaning == answer2 && this.myOBJ.meaning != null && answer2 != null) {
+        this.foo = "Correct !";
+        console.log(this.foo);
+      } else {
+        this.foo = "Wrong Answer !";
+        console.log(this.foo);
+      }
+      oneClick = true
+    }
+  }
+  testclick3() {
+    if (oneClick == false) {
+      var answer3 = document.getElementById("randomButton3").innerHTML;
+      if (this.myOBJ.meaning == answer3 && this.myOBJ.meaning != null && answer3 != null) {
+        this.foo = "Correct !";
+        console.log(this.foo);
+      } else {
+        this.foo = "Wrong Answer !";
+        console.log(this.foo);
+      }
+      oneClick = true
+    }
+  }
 }
+
+
+
+
 
 
 

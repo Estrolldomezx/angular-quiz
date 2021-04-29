@@ -6,14 +6,13 @@ import { AppComponent } from './app.component';
 import { WordsComponent } from './words/words.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule} from '@angular/material/button';
-import { ResultComponent } from './result/result.component';
+import { MessageService } from './message.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     WordsComponent,
-    ResultComponent,
   ],
   imports: [
     BrowserModule,
@@ -21,7 +20,10 @@ import { ResultComponent } from './result/result.component';
     HttpClientModule,
     MatButtonModule,
   ],
-  providers: [WordsComponent],
+  exports: [
+    MessageService
+  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
