@@ -4,7 +4,7 @@
 <section>
    <div class="answer-label">
       <div class="answer-button" id="buttons">
-         <button mat-raised-button id="randomButton" (click)="testclick()" ></button>
+         <button mat-raised-button id="randomButton" (click)="testclick()"></button>
          <button mat-raised-button id="randomButton2" (click)="testclick2()"></button>
          <button mat-raised-button id="randomButton3" (click)="testclick3()"></button>
       </div>
@@ -12,6 +12,12 @@
    <br><br>
    <div *ngIf="messageService.messages.length">
       <div *ngFor='let message of messageService.messages'> {{message}}</div>
-    </div>
-<div>{{foo}}</div>
+   </div>
+   <div>{{result}}</div>
+   <br><br>
+   <nav>
+      <a class="button" (click)="refreshWords()" routerLink="activebutton">Next Word</a>
+   </nav>
+   <div id="score"></div>
+   <!-- <router-outlet></router-outlet> ยังไม่มี event ที่ page not found--> 
 </section>

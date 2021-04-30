@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import word_data from '../_files/word_data.json';
 import { MessageService } from '../message.service';
 
@@ -14,13 +14,16 @@ export class WordsComponent implements OnInit {
 
   wordList: { vocab: String, reading: String, meaning: String }[] = word_data;
 
-  foo: String
+  result: String
 
   //random Word and meaning
   randomWords = Math.floor(Math.random() * this.wordList.length);
   resultRandom = this.wordList[this.randomWords];
   myJSON = JSON.stringify(this.resultRandom);
   myOBJ = JSON.parse(this.myJSON);
+  //localStorage.setItem
+  attempts = Number(localStorage.getItem("attempts"));
+
 
 
   constructor(public messageService: MessageService) { }
@@ -29,8 +32,8 @@ export class WordsComponent implements OnInit {
     this.randomWord();
   }
 
-
   randomWord() {
+    
     document.getElementById("vocabulary").innerHTML = this.myOBJ.vocabulary;
     document.getElementById("reading").innerHTML = this.myOBJ.reading;
     this.randomChoices(this.myOBJ);
@@ -90,7 +93,8 @@ export class WordsComponent implements OnInit {
       document.getElementById("randomButton").innerHTML = random;
       document.getElementById("randomButton2").innerHTML = random2;
       document.getElementById("randomButton3").innerHTML = random3;
-      //this.guessHandler(myOBJ);
+      document.getElementById("score").innerHTML = localStorage.getItem("attempts");
+
     }
   }
 
@@ -98,40 +102,51 @@ export class WordsComponent implements OnInit {
     if (oneClick == false) {
       var answer = document.getElementById("randomButton").innerHTML;
       if (this.myOBJ.meaning == answer && this.myOBJ.meaning != null && answer != null) {
-        this.foo = "Correct !";
-        console.log(this.foo);
+        this.result = "Correct !";
+        // console.log(this.result);
+        localStorage.setItem("attempts", "" + ++this.attempts);
       } else {
-        this.foo = "Wrong Answer !";
-        console.log(this.foo);
+        this.result = "Wrong Answer !";
+        // console.log(this.result);
+        localStorage.setItem("attempts", ""+0);
       }
       oneClick = true
+
     }
+
   }
   testclick2() {
     if (oneClick == false) {
       var answer2 = document.getElementById("randomButton2").innerHTML;
       if (this.myOBJ.meaning == answer2 && this.myOBJ.meaning != null && answer2 != null) {
-        this.foo = "Correct !";
-        console.log(this.foo);
+        this.result = "Correct !";
+        localStorage.setItem("attempts", "" + ++this.attempts);
       } else {
-        this.foo = "Wrong Answer !";
-        console.log(this.foo);
+        this.result = "Wrong Answer !";
+        localStorage.setItem("attempts", ""+0);
       }
       oneClick = true
     }
+
   }
   testclick3() {
     if (oneClick == false) {
       var answer3 = document.getElementById("randomButton3").innerHTML;
       if (this.myOBJ.meaning == answer3 && this.myOBJ.meaning != null && answer3 != null) {
-        this.foo = "Correct !";
-        console.log(this.foo);
+        this.result = "Correct !";
+        // console.log(this.result);
+        localStorage.setItem("attempts", "" + ++this.attempts);
       } else {
-        this.foo = "Wrong Answer !";
-        console.log(this.foo);
+        this.result = "Wrong Answer !";
+        // console.log(this.result);
+        localStorage.setItem("attempts", ""+0);
       }
       oneClick = true
     }
+  }
+
+  refreshWords() {
+    window.location.reload();
   }
 }
 
