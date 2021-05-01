@@ -1,24 +1,21 @@
 * {
     text-align: center;
+    font-family: mali;
+    position: relative;
+    width: 100%;
+    height: inherit;
 }
-
-section {
-    display: table;
-  }
-  
-  .answer-label {
-    display: table-cell;
-    font-size: 14px;
-    margin-left: 8px;
-    min-width: 120px;
-  }
-  
-  .answer-button {
-    display: table-cell;
-    width: 490px;
-
-  }
-  
-  .answer-button .mat-button-base {
-    margin: 8px 8px 8px 0;
-  }
+h2 {
+  margin-top: 5%;
+  font-weight: bold;
+  font-size: 4em;
+  color: orange;
+  text-shadow: 0 2px 0 yellow;
+  position: relative;
+}
+.logo{
+  width:16%;
+  margin-top: 1%;
+  margin-left: 1%;
+  margin-bottom: -2%;
+}

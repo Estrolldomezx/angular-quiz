@@ -51,7 +51,7 @@ export class WordsComponent implements OnInit {
   myOBJ_choice2 = JSON.parse(this.myJSON_choice2);
 
   public randomChoices(myOBJ) {
-    this.messageService.add('Guessing..');
+    // this.messageService.add('Guessing..');
     if (
       myOBJ.meaning == null ||
       this.myOBJ_choice1.meaning == null ||

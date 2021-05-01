@@ -1,6 +1,8 @@
-<h1 id="vocabulary"></h1>
-<h2 id="reading"></h2>
-
+<div class="border-word">
+   <h1 id="vocabulary"></h1>
+   <h2 id="reading"></h2>
+</div>
+<br>
 <section>
    <div class="answer-label">
       <div class="answer-button" id="buttons">
@@ -9,15 +11,20 @@
          <button mat-raised-button id="randomButton3" (click)="testclick3()"></button>
       </div>
    </div>
-   <br><br>
-   <div *ngIf="messageService.messages.length">
-      <div *ngFor='let message of messageService.messages'> {{message}}</div>
-   </div>
-   <div>{{result}}</div>
+   <br>
+   <!-- <div *ngIf="messageService.messages.length">
+      <div *ngFor='let message of messageService.messages' class="message"> {{message}}</div>
+   </div> -->
+   <div class="result">{{result}}</div>
    <br><br>
    <nav>
       <a class="button" (click)="refreshWords()" routerLink="activebutton">Next Word</a>
    </nav>
-   <div id="score"></div>
+   <br>
+   <div class="score-label">
+      <!-- <div>Score<div id="score"></div></div> -->
+      <p>Score: <span id="score"></span> points</p>
+   </div>
+   
    <!-- <router-outlet></router-outlet> ยังไม่มี event ที่ page not found--> 
 </section>
